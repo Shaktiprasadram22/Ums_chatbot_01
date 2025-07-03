@@ -1,0 +1,10 @@
+openai
+python-dotenv
+scikit-learn
+numpy
+langchain
+langchain-community
+faiss-cpu
+tiktoken
+pandas
+fastapi uvicorn
