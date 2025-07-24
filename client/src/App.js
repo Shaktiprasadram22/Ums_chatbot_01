@@ -1,5 +1,9 @@
 import React, { useState, useEffect, useRef } from "react";
 import { Send, MessageCircle, Bot, User } from "lucide-react";
+import TextField from "@mui/material/TextField";
+import Button from "@mui/material/Button";
+// (Optional) If you want a Box/Container:
+// import Box from "@mui/material/Box";
 
 const initialMessages = [
   {
@@ -20,7 +24,6 @@ function App() {
   const [isConnected, setIsConnected] = useState(false);
   const messagesEndRef = useRef(null);
 
-  // Auto-scroll to bottom when new messages arrive
   const scrollToBottom = () => {
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
   };
@@ -29,7 +32,6 @@ function App() {
     scrollToBottom();
   }, [messages]);
 
-  // Check server connection on mount
   useEffect(() => {
     checkServerConnection();
   }, []);
@@ -209,23 +211,46 @@ function App() {
         <div className="max-w-4xl mx-auto">
           <div className="flex items-center gap-3">
             <div className="flex-1 relative">
-              <input
-                type="text"
+              {/* --- Material UI Input component instead of plain input --- */}
+              <TextField
+                variant="outlined"
+                size="small"
+                fullWidth
                 value={message}
                 onChange={(e) => setMessage(e.target.value)}
                 onKeyPress={handleKeyPress}
                 placeholder="Ask me about courses, prerequisites, schedules..."
-                className="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-2xl focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-transparent transition-all duration-200"
                 disabled={isLoading}
+                InputProps={{
+                  sx: { borderRadius: "1rem", backgroundColor: "#fafafa" },
+                }}
+                sx={{
+                  "& .MuiOutlinedInput-root": {
+                    paddingRight: "8px",
+                  },
+                }}
               />
             </div>
-            <button
+            {/* --- Material UI Send Button --- */}
+            <Button
+              variant="contained"
+              color="warning"
+              size="large"
               onClick={handleSendMessage}
-              className="p-3 bg-orange-500 text-white rounded-2xl hover:bg-orange-600 focus:outline-none focus:ring-2 focus:ring-orange-500 focus:ring-offset-2 transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed"
               disabled={!message.trim() || isLoading}
+              sx={{
+                borderRadius: "1rem",
+                height: "48px",
+                minWidth: "48px",
+                padding: 0,
+                boxShadow: "none",
+                "&:hover": {
+                  backgroundColor: "#ea580c",
+                },
+              }}
             >
               <Send className="h-5 w-5" />
-            </button>
+            </Button>
           </div>
           <p className="text-xs text-gray-500 mt-2 text-center">
             Press Enter to send • UMS Chatbot v1.0 •{" "}
